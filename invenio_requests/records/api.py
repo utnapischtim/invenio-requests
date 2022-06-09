@@ -124,7 +124,8 @@ class RequestEvent(Record):
     """Request event type system field."""
 
     index = IndexField(
-        "requestevents-requestevent-v1.0.0", search_alias="requestevents")
+        "requestevents-requestevent-v1.0.0", search_alias="requestevents"
+    )
     """The ES index used."""
 
     id = ModelField("id")

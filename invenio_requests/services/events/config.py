@@ -46,17 +46,18 @@ class RequestEventList(RecordList):
 
             # Project the record
             schema = ServiceSchemaWrapper(
-                self._service, record.type.marshmallow_schema())
+                self._service, record.type.marshmallow_schema()
+            )
             projection = schema.dump(
                 record,
                 context=dict(
                     identity=self._identity,
                     record=record,
-                )
+                ),
             )
 
             if self._links_item_tpl:
-                projection['links'] = self._links_item_tpl.expand(record)
+                projection["links"] = self._links_item_tpl.expand(record)
 
             yield projection
 

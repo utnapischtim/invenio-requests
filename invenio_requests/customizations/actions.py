@@ -18,7 +18,7 @@ class RequestAction:
     status_from = None
     """Required status of a request to run this action."""
 
-    status_to = 'created'
+    status_to = "created"
     """Status after execution of the action."""
 
     event_type = None
@@ -52,14 +52,11 @@ class RequestAction:
         """
         self.request.status = self.status_to
         if self.log_event:
-            event = LogEventType(
-                payload=dict(
-                    event=self.status_to
-                )
-            )
+            event = LogEventType(payload=dict(event=self.status_to))
             _data = dict(payload=event.payload)
             current_events_service.create(
-                identity, self.request.id, _data, event, uow=uow)
+                identity, self.request.id, _data, event, uow=uow
+            )
 
 
 class RequestActions:
@@ -98,7 +95,7 @@ class CreateAction(RequestAction):
     """Create a request."""
 
     status_from = None
-    status_to = 'created'
+    status_to = "created"
     log_event = False
 
 
@@ -106,48 +103,48 @@ class CreateAndSubmitAction(RequestAction):
     """Create and submit a request."""
 
     status_from = None
-    status_to = 'submitted'
+    status_to = "submitted"
     log_event = False
 
 
 class DeleteAction(RequestAction):
     """Delete a request."""
 
-    status_from = ['created']
-    status_to = 'deleted'
+    status_from = ["created"]
+    status_to = "deleted"
 
 
 class SubmitAction(RequestAction):
     """Submit a request."""
 
-    status_from = ['created']
-    status_to = 'submitted'
+    status_from = ["created"]
+    status_to = "submitted"
     log_event = False
 
 
 class AcceptAction(RequestAction):
     """Decline a request."""
 
-    status_from = ['submitted']
-    status_to = 'accepted'
+    status_from = ["submitted"]
+    status_to = "accepted"
 
 
 class DeclineAction(RequestAction):
     """Decline a request."""
 
-    status_from = ['submitted']
-    status_to = 'declined'
+    status_from = ["submitted"]
+    status_to = "declined"
 
 
 class CancelAction(RequestAction):
     """Cancel a request."""
 
-    status_from = ['submitted']
-    status_to = 'cancelled'
+    status_from = ["submitted"]
+    status_to = "cancelled"
 
 
 class ExpireAction(RequestAction):
     """Expire a request."""
 
-    status_from = ['submitted']
-    status_to = 'expired'
+    status_from = ["submitted"]
+    status_to = "expired"

@@ -20,7 +20,7 @@ from invenio_records_resources.services.errors import PermissionDeniedError
 
 def not_found_error(error):
     """Handler for 'Not Found' errors."""
-    return render_template(current_app.config['THEME_404_TEMPLATE']), 404
+    return render_template(current_app.config["THEME_404_TEMPLATE"]), 404
 
 
 def record_tombstone_error(error):
@@ -33,7 +33,7 @@ def record_permission_denied_error(error):
     if not current_user.is_authenticated:
         # trigger the flask-login unauthorized handler
         return current_app.login_manager.unauthorized()
-    return render_template(current_app.config['THEME_403_TEMPLATE']), 403
+    return render_template(current_app.config["THEME_403_TEMPLATE"]), 403
 
 
 def create_ui_blueprint(app):
@@ -44,7 +44,7 @@ def create_ui_blueprint(app):
         "invenio_requests",
         __name__,
         template_folder="../templates",
-        static_folder='../static'
+        static_folder="../static",
     )
 
     # Register error handlers

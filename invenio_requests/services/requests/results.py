@@ -29,7 +29,7 @@ class RequestItem(RecordItem):
         links_tpl=None,
         schema=None,
         expandable_fields=None,
-        expand=False
+        expand=False,
     ):
         """Constructor."""
         self._data = None
@@ -111,7 +111,7 @@ class RequestList(RecordList):
         links_tpl=None,
         links_item_tpl=None,
         expandable_fields=None,
-        expand=False
+        expand=False,
     ):
         """Constructor.
 

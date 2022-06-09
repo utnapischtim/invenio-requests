@@ -21,12 +21,14 @@ fixtures are available.
 try:
     # Werkzeug <2.1
     from werkzeug import security
+
     security.safe_str_cmp
 except AttributeError:
     # Werkzeug >=2.1
     import hmac
 
     from werkzeug import security
+
     security.safe_str_cmp = hmac.compare_digest
 
 import pytest
@@ -80,10 +82,7 @@ def app_config(app_config):
         "RECORDS_REFRESOLVER_STORE"
     ] = "invenio_jsonschemas.proxies.current_refresolver_store"
     app_config["REQUESTS_REGISTERED_TYPES"] = [RequestType()]
-    app_config["REQUESTS_REGISTERED_EVENT_TYPES"] = [
-        LogEventType(),
-        CommentEventType()
-    ]
+    app_config["REQUESTS_REGISTERED_EVENT_TYPES"] = [LogEventType(), CommentEventType()]
     return app_config
 
 
@@ -183,6 +182,7 @@ def example_request(identity_simple, request_record_input_data, users):
     """Example record."""
     # Need to use the service to get the id I guess...
     from invenio_requests.proxies import current_requests
+
     user1, user2 = users[0], users[1]
 
     requests_service = current_requests.requests_service

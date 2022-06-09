@@ -19,7 +19,7 @@ class GrantTokensDumperExt(ElasticsearchDumperExt):
     into the indexed request record.
     """
 
-    grants_field = 'grants'
+    grants_field = "grants"
 
     def __init__(self, *fields):
         """Constructor."""

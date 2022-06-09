@@ -17,6 +17,7 @@ from invenio_requests.proxies import current_requests
 
 def pass_request(expand=False):
     """Fetch the request record and pass it as kwarg."""
+
     def decorator(f):
         @wraps(f)
         def view(**kwargs):
@@ -27,5 +28,7 @@ def pass_request(expand=False):
             )
             kwargs["request"] = request
             return f(**kwargs)
+
         return view
+
     return decorator

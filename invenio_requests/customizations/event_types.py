@@ -92,8 +92,7 @@ class EventType:
             if cls.payload_required is not None:
                 payload_required = cls.payload_required
             additional_fields["payload"] = ma.fields.Nested(
-                PayloadBaseSchema.from_dict(payload_schema),
-                required=payload_required
+                PayloadBaseSchema.from_dict(payload_schema), required=payload_required
             )
 
         # Dynamically create a schema from the fields defined
@@ -105,8 +104,9 @@ class EventType:
         """Create a schema for the entire request including payload."""
         type_id = cls.type_id
         if type_id not in current_requests._events_schema_cache:
-            current_requests._events_schema_cache[type_id] = \
-                cls._create_marshmallow_schema()
+            current_requests._events_schema_cache[
+                type_id
+            ] = cls._create_marshmallow_schema()
         return current_requests._events_schema_cache[type_id]
 
 
@@ -119,15 +119,14 @@ class LogEventType(EventType):
         """Return payload schema as a dictionary."""
         # we need to import here because of circular imports
         from invenio_requests.records.api import RequestEventFormat
+
         return dict(
             event=fields.String(validate=validate.Length(min=1)),
-            content=utils_fields.SanitizedHTML(
-                validate=validate.Length(min=1)
-            ),
+            content=utils_fields.SanitizedHTML(validate=validate.Length(min=1)),
             format=fields.Str(
                 validate=validate.OneOf(choices=[e.value for e in RequestEventFormat]),
                 load_default=RequestEventFormat.HTML.value,
-            )
+            ),
         )
 
 
@@ -140,6 +139,7 @@ class CommentEventType(EventType):
         """Return payload schema as a dictionary."""
         # we need to import here because of circular imports
         from invenio_requests.records.api import RequestEventFormat
+
         return dict(
             content=utils_fields.SanitizedHTML(
                 required=True, validate=validate.Length(min=1)
@@ -147,7 +147,7 @@ class CommentEventType(EventType):
             format=fields.Str(
                 validate=validate.OneOf(choices=[e.value for e in RequestEventFormat]),
                 load_default=RequestEventFormat.HTML.value,
-            )
+            ),
         )
 
     payload_required = True

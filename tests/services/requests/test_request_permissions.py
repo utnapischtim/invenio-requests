@@ -29,8 +29,14 @@ def requests_service_action_input_data():
 
 
 def test_only_creator_can_submit(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, requests_service_action_input_data, create_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    requests_service_action_input_data,
+    create_request,
+):
     request = create_request(identity_simple)
     request_id = request.id
     data = requests_service_action_input_data
@@ -42,14 +48,18 @@ def test_only_creator_can_submit(
     with pytest.raises(PermissionDeniedError):
         requests_service.execute_action(identity_simple_2, request_id, "submit", data)
     # Creator
-    assert (
-        requests_service.execute_action(identity_simple, request_id, "submit", data)
-    )
+    assert requests_service.execute_action(identity_simple, request_id, "submit", data)
 
 
 def test_only_receiver_can_accept(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, requests_service_action_input_data, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    requests_service_action_input_data,
+    submit_request,
+):
     request = submit_request(identity_simple)
     request_id = request.id
     data = copy.deepcopy(requests_service_action_input_data)
@@ -62,14 +72,20 @@ def test_only_receiver_can_accept(
     with pytest.raises(PermissionDeniedError):
         requests_service.execute_action(identity_simple, request_id, "accept", data)
     # Receiver
-    assert (
-        requests_service.execute_action(identity_simple_2, request_id, "accept", data)
+    assert requests_service.execute_action(
+        identity_simple_2, request_id, "accept", data
     )
 
 
 def test_only_receiver_can_decline(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, requests_service_action_input_data, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    requests_service_action_input_data,
+    submit_request,
+):
     request = submit_request(identity_simple)
     request_id = request.id
     data = copy.deepcopy(requests_service_action_input_data)
@@ -82,14 +98,20 @@ def test_only_receiver_can_decline(
     with pytest.raises(PermissionDeniedError):
         requests_service.execute_action(identity_simple, request_id, "decline", data)
     # Receiver
-    assert (
-        requests_service.execute_action(identity_simple_2, request_id, "decline", data)
+    assert requests_service.execute_action(
+        identity_simple_2, request_id, "decline", data
     )
 
 
 def test_only_creator_can_cancel(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, requests_service_action_input_data, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    requests_service_action_input_data,
+    submit_request,
+):
     request = submit_request(identity_simple)
     request_id = request.id
 
@@ -100,14 +122,18 @@ def test_only_creator_can_cancel(
     with pytest.raises(PermissionDeniedError):
         requests_service.execute_action(identity_simple_2, request_id, "cancel")
     # Creator
-    assert (
-        requests_service.execute_action(identity_simple, request_id, "cancel")
-    )
+    assert requests_service.execute_action(identity_simple, request_id, "cancel")
 
 
 def test_only_creator_can_read_draft_request(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, requests_service_action_input_data, create_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    requests_service_action_input_data,
+    create_request,
+):
     request = create_request(identity_simple)
     request_id = request.id
 
@@ -122,8 +148,14 @@ def test_only_creator_can_read_draft_request(
 
 
 def test_creator_and_receiver_can_read_open_request(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, requests_service_action_input_data, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    requests_service_action_input_data,
+    submit_request,
+):
     request = submit_request(identity_simple)
     request_id = request.id
 
@@ -137,8 +169,14 @@ def test_creator_and_receiver_can_read_open_request(
 
 
 def test_creator_and_receiver_can_read_expired_request(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, requests_service_action_input_data, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    requests_service_action_input_data,
+    submit_request,
+):
     request = submit_request(identity_simple)
     request_id = request.id
     requests_service.execute_action(system_identity, request_id, "expire")
@@ -164,8 +202,14 @@ def update_input(request):
 
 
 def test_only_creator_can_update_draft_request(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, create_request, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    create_request,
+    submit_request,
+):
     request = create_request(identity_simple)  # receiver is user #2
     request_id = request.id
     data = update_input(request)
@@ -181,8 +225,13 @@ def test_only_creator_can_update_draft_request(
 
 
 def test_creator_and_receiver_can_update_open_request(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    submit_request,
+):
     request = submit_request(identity_simple)
     request_id = request.id
     data = update_input(request)
@@ -197,8 +246,13 @@ def test_creator_and_receiver_can_update_open_request(
 
 
 def test_only_system_can_update_closed_request(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        requests_service, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    submit_request,
+):
     request = submit_request(identity_simple)
     request_id = request.id
     result = requests_service.execute_action(system_identity, request_id, "decline")
@@ -218,8 +272,8 @@ def test_only_system_can_update_closed_request(
 
 
 def test_only_authenticated_user_can_create_request(
-        app, identity_simple, identity_stranger,
-        requests_service, create_request):
+    app, identity_simple, identity_stranger, requests_service, create_request
+):
     # Stranger
     with pytest.raises(PermissionDeniedError):
         create_request(identity_stranger)
@@ -228,8 +282,13 @@ def test_only_authenticated_user_can_create_request(
 
 
 def test_only_system_and_creator_can_delete_request(
-        app, identity_simple, identity_stranger, submit_request,
-        requests_service, create_request):
+    app,
+    identity_simple,
+    identity_stranger,
+    submit_request,
+    requests_service,
+    create_request,
+):
     request = create_request(identity_simple)
     request_id = request.id
 

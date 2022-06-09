@@ -73,7 +73,8 @@ class SequenceMixin:
         """The counter."""
         return db.Column(
             db.BigInteger().with_variant(db.Integer, "sqlite"),
-            primary_key=True, autoincrement=True
+            primary_key=True,
+            autoincrement=True,
         )
 
     @classmethod
@@ -106,11 +107,12 @@ class SequenceMixin:
 
         :param val: The value to be set.
         """
-        if db.engine.dialect.name == 'postgresql':  # pragma: no cover
+        if db.engine.dialect.name == "postgresql":  # pragma: no cover
             db.session.execute(
                 "SELECT setval(pg_get_serial_sequence("
-                "'{0}', 'value'), :newval)".format(
-                    cls.__tablename__), dict(newval=val))
+                "'{0}', 'value'), :newval)".format(cls.__tablename__),
+                dict(newval=val),
+            )
 
     @classmethod
     def insert(cls, val):

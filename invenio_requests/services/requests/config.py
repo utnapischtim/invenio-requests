@@ -33,10 +33,9 @@ def _is_action_available(request, context):
     """Check if the given action is available on the request."""
     action = context.get("action")
     identity = context.get("identity")
-    permission_policy_cls = context.get('permission_policy_cls')
+    permission_policy_cls = context.get("permission_policy_cls")
     permission = permission_policy_cls(f"action_{action}", request=request)
-    return RequestActions.can_execute(request, action) and \
-        permission.allows(identity)
+    return RequestActions.can_execute(request, action) and permission.allows(identity)
 
 
 class RequestSearchOptions(SearchOptions):
@@ -50,8 +49,8 @@ class RequestSearchOptions(SearchOptions):
     ]
 
     facets = {
-        'type': facets.type,
-        'status': facets.status,
+        "type": facets.type,
+        "status": facets.status,
     }
 
 

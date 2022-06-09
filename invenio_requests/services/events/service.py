@@ -36,13 +36,10 @@ class RequestEventsService(RecordService):
     @property
     def expandable_fields(self):
         """Get expandable fields."""
-        return [
-            EntityResolverExpandableField("created_by")
-        ]
+        return [EntityResolverExpandableField("created_by")]
 
     @unit_of_work()
-    def create(self, identity, request_id, data, event_type, uow=None,
-               expand=False):
+    def create(self, identity, request_id, data, event_type, uow=None, expand=False):
         """Create a request event.
 
         :param request_id: Identifier of the request (data-layer id).
@@ -100,13 +97,13 @@ class RequestEventsService(RecordService):
         )
 
     @unit_of_work()
-    def update(self, identity, id_, data, revision_id=None, uow=None,
-               expand=False):
+    def update(self, identity, id_, data, revision_id=None, uow=None, expand=False):
         """Update a comment (only comments can be updated)."""
         event = self._get_event(id_)
         request = self._get_request(event.request.id)
         self.require_permission(
-            identity, "update_comment", request=request, event=event)
+            identity, "update_comment", request=request, event=event
+        )
         self.check_revision_id(event, revision_id)
 
         if event.type != CommentEventType:
@@ -115,14 +112,10 @@ class RequestEventsService(RecordService):
         schema = self._wrap_schema(event.type.marshmallow_schema())
         data, _ = schema.load(
             data,
-            context=dict(
-                identity=identity,
-                record=event,
-                event_type=event.type
-            ),
+            context=dict(identity=identity, record=event, event_type=event.type),
         )
-        event['payload']['content'] = data['payload']['content']
-        event['payload']['format'] = data['payload']['format']
+        event["payload"]["content"] = data["payload"]["content"]
+        event["payload"]["format"] = data["payload"]["format"]
         uow.register(RecordCommitOp(event, indexer=self.indexer))
 
         return self.result_item(
@@ -144,7 +137,8 @@ class RequestEventsService(RecordService):
 
         # Permissions
         self.require_permission(
-            identity, "delete_comment", request=request, event=event)
+            identity, "delete_comment", request=request, event=event
+        )
         self.check_revision_id(event, revision_id)
 
         if event.type != CommentEventType:
@@ -165,8 +159,7 @@ class RequestEventsService(RecordService):
         self.create(identity, request_id, data, LogEventType, uow=uow)
         return True
 
-    def search(self, identity, request_id, params=None, es_preference=None,
-               **kwargs):
+    def search(self, identity, request_id, params=None, es_preference=None, **kwargs):
         """Search for events for a given request matching the querystring."""
         params = params or {}
         params.setdefault("sort", "oldest")

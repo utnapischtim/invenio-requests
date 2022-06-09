@@ -37,16 +37,13 @@ def upgrade():
             sa.JSON()
             .with_variant(JSONType(), "mysql")
             .with_variant(
-                postgresql.JSONB(
-                    none_as_null=True, astext_type=sa.Text()), "postgresql"
+                postgresql.JSONB(none_as_null=True, astext_type=sa.Text()), "postgresql"
             )
             .with_variant(JSONType(), "sqlite"),
             nullable=True,
         ),
         sa.Column("version_id", sa.Integer(), nullable=False),
-        sa.Column(
-            "id", UUIDType(), nullable=False
-        ),
+        sa.Column("id", UUIDType(), nullable=False),
         sa.Column("number", sa.String(length=50), nullable=True),
         sa.Column(
             "expires_at",
@@ -73,25 +70,20 @@ def upgrade():
             sa.DateTime().with_variant(mysql.DATETIME(fsp=6), "mysql"),
             nullable=False,
         ),
-        sa.Column(
-            "id", UUIDType(), nullable=False
-        ),
+        sa.Column("id", UUIDType(), nullable=False),
         sa.Column(
             "json",
             sa.JSON()
             .with_variant(JSONType(), "mysql")
             .with_variant(
-                postgresql.JSONB(
-                    none_as_null=True, astext_type=sa.Text()), "postgresql"
+                postgresql.JSONB(none_as_null=True, astext_type=sa.Text()), "postgresql"
             )
             .with_variant(JSONType(), "sqlite"),
             nullable=True,
         ),
         sa.Column("version_id", sa.Integer(), nullable=False),
         sa.Column("type", sa.String(length=1), nullable=False),
-        sa.Column(
-            "request_id", UUIDType(), nullable=True
-        ),
+        sa.Column("request_id", UUIDType(), nullable=True),
         sa.ForeignKeyConstraint(
             ["request_id"],
             ["request_metadata.id"],
@@ -116,7 +108,5 @@ def downgrade():
     """Downgrade database."""
     op.drop_table("request_number_seq")
     op.drop_table("request_events")
-    op.drop_index(
-        op.f("ix_request_metadata_number"), table_name="request_metadata"
-    )
+    op.drop_index(op.f("ix_request_metadata_number"), table_name="request_metadata")
     op.drop_table("request_metadata")

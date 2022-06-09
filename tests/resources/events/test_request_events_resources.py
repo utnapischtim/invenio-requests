@@ -56,8 +56,7 @@ def test_simple_comment_flow(
             "self": f"https://127.0.0.1:5000/api/requests/{request_id}/comments/{comment_id}",  # noqa
             # "report": ""  # TODO
         },
-        "permissions": {"can_update_comment": True,
-                        "can_delete_comment": True},
+        "permissions": {"can_update_comment": True, "can_delete_comment": True},
         "revision_id": 1,
         "type": CommentEventType.type_id,
     }
@@ -71,9 +70,7 @@ def test_simple_comment_flow(
     assert_api_response(response, 200, expected_json_1)
 
     # User 1 submits the request
-    response = client.post(
-        f"/requests/{request_id}/actions/submit", headers=headers
-    )
+    response = client.post(f"/requests/{request_id}/actions/submit", headers=headers)
     assert response.status_code == 200
 
     # User 2 comments
@@ -102,8 +99,7 @@ def test_simple_comment_flow(
             "self": f"https://127.0.0.1:5000/api/requests/{request_id}/comments/{comment_id}",  # noqa
             # "report": ""  # TODO
         },
-        "permissions": {"can_update_comment": True,
-                        "can_delete_comment": True},
+        "permissions": {"can_update_comment": True, "can_delete_comment": True},
         "revision_id": 2,
         "type": CommentEventType.type_id,
     }
@@ -125,8 +121,10 @@ def test_simple_comment_flow(
     assert 200 == response.status_code
     assert 2 == response.json["hits"]["total"]
     # User 2 cannot updated or delete the comment created by user 1
-    expected_json_1["permissions"] = {"can_update_comment": False,
-                                      "can_delete_comment": False}
+    expected_json_1["permissions"] = {
+        "can_update_comment": False,
+        "can_delete_comment": False,
+    }
     assert_api_response_json(expected_json_1, response.json["hits"]["hits"][0])
     expected_json_3 = {
         "created_by": {"user": "2"},
@@ -134,7 +132,7 @@ def test_simple_comment_flow(
         "payload": {
             "content": "deleted a comment",
             "format": "html",
-            "event": "comment_deleted"
+            "event": "comment_deleted",
         },
         "type": LogEventType.type_id,
     }
@@ -176,23 +174,16 @@ def test_empty_comment(
 
     expected_json = {
         "errors": [
-            {
-                "field": "payload",
-                "messages": [
-                    "Missing data for required field."
-                ]
-            }
+            {"field": "payload", "messages": ["Missing data for required field."]}
         ],
         "message": "A validation error occurred.",
-        "status": 400
+        "status": 400,
     }
     assert 400 == response.status_code
     assert expected_json == response.json
 
     # Comment {} is an error
-    response = client.post(
-        f"/requests/{request_id}/comments", headers=headers, json={}
-    )
+    response = client.post(f"/requests/{request_id}/comments", headers=headers, json={})
     assert 400 == response.status_code
     assert expected_json == response.json
 
@@ -206,13 +197,8 @@ def test_empty_comment(
     expected_json = {
         **expected_json,
         "errors": [
-            {
-                "field": "payload.content",
-                "messages": [
-                    "Shorter than minimum length 1."
-                ]
-            }
-        ]
+            {"field": "payload.content", "messages": ["Shorter than minimum length 1."]}
+        ],
     }
     assert expected_json == response.json
 

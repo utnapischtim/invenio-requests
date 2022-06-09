@@ -21,32 +21,30 @@ from invenio_assets.webpack import WebpackThemeBundle
 
 requests = WebpackThemeBundle(
     __name__,
-    'assets',
-    default='semantic-ui',
+    "assets",
+    default="semantic-ui",
     themes={
-        'semantic-ui': dict(
+        "semantic-ui": dict(
             entry={
-                'invenio-requests-theme':
-                    './less/invenio_requests/theme.less',
-                'invenio-requests-base':
-                    './js/invenio_requests/requestsAppInit.js',
+                "invenio-requests-theme": "./less/invenio_requests/theme.less",
+                "invenio-requests-base": "./js/invenio_requests/requestsAppInit.js",
             },
             dependencies={
-                'semantic-ui-css': '^2.4.1',
-                'semantic-ui-react': '^2.1.1',
-                '@ckeditor/ckeditor5-build-classic': '^16.0.0',
-                '@ckeditor/ckeditor5-react': '^2.1.0',
-                'axios': '^0.19.0',
-                'lodash': '^4.17.15',
-                'luxon': '^1.21.1',
-                'path': '^0.12.7',
-                'prop-types': '^15.7.2',
-                'qs': '^6.9.1',
-                'react': '^16.12.0',
-                'react-dom': '^16.11.0',
-                'yup': '^0.27.0',
-                'react-overridable': '^0.0.3',
-                '@semantic-ui-react/css-patch': '^1.0.0',
+                "semantic-ui-css": "^2.4.1",
+                "semantic-ui-react": "^2.1.1",
+                "@ckeditor/ckeditor5-build-classic": "^16.0.0",
+                "@ckeditor/ckeditor5-react": "^2.1.0",
+                "axios": "^0.19.0",
+                "lodash": "^4.17.15",
+                "luxon": "^1.21.1",
+                "path": "^0.12.7",
+                "prop-types": "^15.7.2",
+                "qs": "^6.9.1",
+                "react": "^16.12.0",
+                "react-dom": "^16.11.0",
+                "yup": "^0.27.0",
+                "react-overridable": "^0.0.3",
+                "@semantic-ui-react/css-patch": "^1.0.0",
                 "redux": "^4.0.5",
                 "redux-devtools-extension": "^2.13.8",
                 "redux-thunk": "^2.3.0",
@@ -56,11 +54,9 @@ requests = WebpackThemeBundle(
                 "react-i18next": "^11.11.0",
             },
             aliases={
-                '@translations/invenio_requests':
-                    'translations/invenio_requests',
-                '@js/invenio_requests':
-                    'js/invenio_requests'
-            }
+                "@translations/invenio_requests": "translations/invenio_requests",
+                "@js/invenio_requests": "js/invenio_requests",
+            },
         ),
-    }
+    },
 )

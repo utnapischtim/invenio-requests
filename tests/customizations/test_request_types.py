@@ -32,6 +32,7 @@ class CustomCreateAction(CreateAction):
 
 class TestAction(RequestAction):
     """Test action."""
+
     status_from = ["not_closed"]
     status_to = "closed"
 
@@ -46,10 +47,7 @@ class CustomizedReferenceRequestType(RequestType):
 
     type_id = "customized-reference-request"
 
-    available_actions = {
-        "custom-create": CustomCreateAction,
-        "test": TestAction
-    }
+    available_actions = {"custom-create": CustomCreateAction, "test": TestAction}
     available_statuses = {
         "not_closed": RequestState.OPEN,
         "closed": RequestState.CLOSED,

@@ -47,9 +47,9 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"Invenio-Requests"
-copyright = u"2021, CERN"
-author = u"CERN"
+project = "Invenio-Requests"
+copyright = "2021, CERN"
+author = "CERN"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -244,8 +244,8 @@ latex_documents = [
     (
         master_doc,
         "invenio-requests.tex",
-        u"invenio-requests Documentation",
-        u"CERN",
+        "invenio-requests Documentation",
+        "CERN",
         "manual",
     ),
 ]
@@ -279,7 +279,7 @@ man_pages = [
     (
         master_doc,
         "invenio-requests",
-        u"invenio-requests Documentation",
+        "invenio-requests Documentation",
         [author],
         1,
     )
@@ -298,7 +298,7 @@ texinfo_documents = [
     (
         master_doc,
         "invenio-requests",
-        u"Invenio-Requests Documentation",
+        "Invenio-Requests Documentation",
         author,
         "invenio-requests",
         "Invenio module for generic and customizable requests.",

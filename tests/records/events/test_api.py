@@ -27,7 +27,7 @@ def test_request_event_jsonschema(app, db, example_request):
     # JSONSchema validation works.
     with pytest.raises(ValidationError):
         RequestEvent.create(
-            {'garbage': {'bar': 1}},
+            {"garbage": {"bar": 1}},
             request=example_request.model,
             request_id=example_request.number,
             type=CommentEventType,

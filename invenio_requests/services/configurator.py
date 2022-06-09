@@ -39,9 +39,8 @@ class FromConfig:
     def __get__(self, obj, objtype=None):
         """Return value that was grafted on obj (descriptor protocol)."""
         return load_or_import_from_config(
-            app=obj._app,
-            key=self.config_key,
-            default=self.default)
+            app=obj._app, key=self.config_key, default=self.default
+        )
 
     def __set_name__(self, owner, name):
         """Store name of grafted field (descriptor protocol)."""

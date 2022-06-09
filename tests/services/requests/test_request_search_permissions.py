@@ -26,8 +26,14 @@ def requests_service_action_input_data():
 
 
 def test_relevant_identities_can_search_requests(
-        app, identity_simple, identity_simple_2, identity_stranger, requests_service,
-        users, create_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    requests_service,
+    users,
+    create_request,
+):
     u1, u2, u3 = users
     u1_request = create_request(identity_simple, receiver=u2, creator=u1)
     create_request(identity_simple, receiver=u3, creator=u1)

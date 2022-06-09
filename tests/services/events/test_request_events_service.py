@@ -27,15 +27,15 @@ def test_schemas(app, example_request):
     class InvalidEventType(EventType):
         """Invalid event type."""
 
-        type_id = 'INVALID'
+        type_id = "INVALID"
 
     with pytest.raises(TypeError, match="Event type INVALID is not registered."):
         events_service.create(system_identity, request_id, {}, InvalidEventType)
 
 
 def test_simple_flow(
-        app, identity_simple, events_service_data, create_request,
-        request_events_service):
+    app, identity_simple, events_service_data, create_request, request_events_service
+):
     """Interact with comment events."""
     request = create_request(identity_simple)
     request_id = request.id
@@ -74,8 +74,7 @@ def test_simple_flow(
     with pytest.raises(NoResultFound):
         request_events_service.read(identity_simple, id_)
     # find the newly created deleted event
-    res = request_events_service.search(
-        identity_simple, request_id, sort="newest")
+    res = request_events_service.search(identity_simple, request_id, sort="newest")
     deleted = list(res.hits)[0]
 
     assert LogEventType.type_id == deleted["type"]
@@ -100,28 +99,29 @@ def test_simple_flow(
 
 
 def test_delete_non_comment(
-        events_service_data, example_request, request_events_service):
+    events_service_data, example_request, request_events_service
+):
     # Deleting a regular comment empties content and changes type (tested above)
     # Deleting an accept/decline/cancel event removes them
     request_id = example_request.id
     comment = events_service_data["comment"]
     del comment["payload"]
 
-    non_comment_types = [t for t in current_event_type_registry
-                         if t != CommentEventType]
+    non_comment_types = [
+        t for t in current_event_type_registry if t != CommentEventType
+    ]
     for typ in non_comment_types:
         comment["type"] = typ.type_id
-        item = request_events_service.create(
-            system_identity, request_id, comment, typ
-        )
+        item = request_events_service.create(system_identity, request_id, comment, typ)
         event_id = item.id
 
         with pytest.raises(PermissionError):
             request_events_service.delete(system_identity, event_id)
 
 
-def test_cannot_change_event_type(identity_simple, events_service_data,
-                                  example_request):
+def test_cannot_change_event_type(
+    identity_simple, events_service_data, example_request
+):
     # The `update`` service method can't be used to change the type
     events_service = current_requests.request_events_service
     comment = events_service_data["comment"]
@@ -130,10 +130,7 @@ def test_cannot_change_event_type(identity_simple, events_service_data,
 
     item = events_service.create(identity_simple, request_id, comment, CommentEventType)
     comment_id = item.id
-    data = {
-        **comment,
-        "type": LogEventType.type_id
-    }
+    data = {**comment, "type": LogEventType.type_id}
 
     updated_event = events_service.update(identity_simple, comment_id, data).to_dict()
     # data aren't changed
@@ -141,8 +138,8 @@ def test_cannot_change_event_type(identity_simple, events_service_data,
 
 
 def test_events_are_searchable(
-        app, identity_simple, events_service_data, create_request,
-        request_events_service):
+    app, identity_simple, events_service_data, create_request, request_events_service
+):
     """Search all type of events."""
     request = create_request(identity_simple)
     request_id = request.id
@@ -155,9 +152,7 @@ def test_events_are_searchable(
     )
 
     # Create a log event
-    request_events_service.create(
-        identity_simple, request_id, log_event, LogEventType
-    )
+    request_events_service.create(identity_simple, request_id, log_event, LogEventType)
 
     # Refresh to make changes live
     RequestEvent.index.refresh()

@@ -38,10 +38,10 @@ class RequestDataComponent(DataComponent):
 
     def update(self, identity, data=None, record=None, **kwargs):
         """Update an existing record (request)."""
-        if record.status == 'created':
-            keys = ('title', 'description', 'payload', 'receiver', 'topic')
+        if record.status == "created":
+            keys = ("title", "description", "payload", "receiver", "topic")
         else:
-            keys = ('title', 'description')
+            keys = ("title", "description")
 
         for k in keys:
             if k in data:

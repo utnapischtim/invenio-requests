@@ -39,8 +39,8 @@ class RequestsService(RecordService):
             self.config.links_item,
             self.config.action_link,
             context={
-                'permission_policy_cls': self.config.permission_policy_cls,
-            }
+                "permission_policy_cls": self.config.permission_policy_cls,
+            },
         )
 
     @property
@@ -62,8 +62,16 @@ class RequestsService(RecordService):
 
     @unit_of_work()
     def create(
-        self, identity, data, request_type, receiver, creator=None, topic=None,
-        expires_at=None, uow=None, expand=False
+        self,
+        identity,
+        data,
+        request_type,
+        receiver,
+        creator=None,
+        topic=None,
+        expires_at=None,
+        uow=None,
+        expand=False,
     ):
         """Create a record."""
         self.require_permission(identity, "create")
@@ -146,8 +154,7 @@ class RequestsService(RecordService):
         )
 
     @unit_of_work()
-    def update(self, identity, id_, data, revision_id=None, uow=None,
-               expand=False):
+    def update(self, identity, id_, data, revision_id=None, uow=None, expand=False):
         """Update a request."""
         request = self.record_cls.get_record(id_)
 
@@ -167,8 +174,7 @@ class RequestsService(RecordService):
         )
 
         # run components
-        self.run_components("update", identity, data=data, record=request,
-                            uow=uow)
+        self.run_components("update", identity, data=data, record=request, uow=uow)
 
         uow.register(RecordCommitOp(request, indexer=self.indexer))
 
@@ -213,8 +219,7 @@ class RequestsService(RecordService):
         action_obj.execute(identity, uow)
 
     @unit_of_work()
-    def execute_action(self, identity, id_, action, data=None, uow=None,
-                       expand=False):
+    def execute_action(self, identity, id_, action, data=None, uow=None, expand=False):
         """Execute the given action for the request, if possible.
 
         For instance, it would be not possible to execute the specified
@@ -242,8 +247,9 @@ class RequestsService(RecordService):
             _data = dict(
                 payload=data.get("payload", {}),
             )
-            current_events_service.create(identity, request.id, _data, CommentEventType,
-                                          uow=uow)
+            current_events_service.create(
+                identity, request.id, _data, CommentEventType, uow=uow
+            )
 
         # make events immediately available in search
         uow.register(IndexRefreshOp(indexer=self.indexer))
@@ -259,27 +265,31 @@ class RequestsService(RecordService):
         )
 
     def search_user_requests(
-            self, identity, params=None, es_preference=None, expand=False, **kwargs):
+        self, identity, params=None, es_preference=None, expand=False, **kwargs
+    ):
         """Search for requests matching the querystring and belong to user.
 
         The user is able to search the requests that were created by them
         or they are the receiver.
         """
-        self.require_permission(identity, 'search_user_requests')
+        self.require_permission(identity, "search_user_requests")
 
         # Prepare and execute the search
         params = params or {}
         search_result = self._search(
-            'search',
+            "search",
             identity,
             params,
             es_preference,
             permission_action=None,
-            extra_filter=Bool("should", should=[
-                Q("term", **{"created_by.user": identity.id}),
-                Q("term", **{"receiver.user": identity.id}),
-            ]),
-            **kwargs
+            extra_filter=Bool(
+                "should",
+                should=[
+                    Q("term", **{"created_by.user": identity.id}),
+                    Q("term", **{"receiver.user": identity.id}),
+                ],
+            ),
+            **kwargs,
         ).execute()
 
         return self.result_list(
@@ -288,7 +298,8 @@ class RequestsService(RecordService):
             search_result,
             params,
             links_tpl=LinksTemplate(
-                self.config.links_user_requests_search, context={"args": params}),
+                self.config.links_user_requests_search, context={"args": params}
+            ),
             links_item_tpl=self.links_item_tpl,
             expandable_fields=self.expandable_fields,
             expand=expand,

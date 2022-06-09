@@ -25,14 +25,14 @@ def events_service_data():
             "payload": {
                 "content": "This is a comment.",
                 "format": RequestEventFormat.HTML.value,
-            }
+            },
         },
         log={
             "type": LogEventType.type_id,
             "payload": {
                 "content": "This is a log event.",
                 "format": RequestEventFormat.HTML.value,
-                "event": "LOG_EVENT"
-            }
+                "event": "LOG_EVENT",
+            },
         },
     )

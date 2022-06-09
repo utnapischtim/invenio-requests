@@ -56,6 +56,7 @@ class InvenioRequests:
 
     def service_configs(self, app):
         """Customized service configs."""
+
         class ServiceConfigs:
             requests = RequestsServiceConfig.build(app)
             request_events = RequestEventsServiceConfig.build(app)
@@ -98,8 +99,7 @@ class InvenioRequests:
         )
         # Load from entry points
         register_entry_point(self.request_type_registry, "invenio_requests.types")
-        register_entry_point(self.request_type_registry,
-                             "invenio_requests.event_types")
+        register_entry_point(self.request_type_registry, "invenio_requests.event_types")
         register_entry_point(
             self.entity_resolvers_registry, "invenio_requests.entity_resolvers"
         )

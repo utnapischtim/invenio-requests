@@ -75,7 +75,7 @@ class IsOpenParam(ParamInterpreter):
     def apply(self, identity, search, params):
         """Evaluate the is_open parameter on the search."""
         if params.get("is_open") is True:
-            search = search.filter('term', **{self.field_name: True})
+            search = search.filter("term", **{self.field_name: True})
         elif params.get("is_open") is False:
-            search = search.filter('term', **{self.field_name: False})
+            search = search.filter("term", **{self.field_name: False})
         return search

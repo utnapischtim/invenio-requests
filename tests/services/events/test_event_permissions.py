@@ -17,22 +17,25 @@ from invenio_requests.records.api import RequestEvent
 
 
 def test_creator_and_receiver_can_comment(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        request_events_service, events_service_data, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    request_events_service,
+    events_service_data,
+    submit_request,
+):
     request = submit_request(identity_simple)
     request_id = request.id
     comment = events_service_data["comment"]
 
     # Creator
-    assert (
-        request_events_service.create(
-            identity_simple, request_id, comment, CommentEventType)
+    assert request_events_service.create(
+        identity_simple, request_id, comment, CommentEventType
     )
     # Receiver
-    assert (
-        request_events_service.create(
-            identity_simple_2, request_id, comment, CommentEventType
-        )
+    assert request_events_service.create(
+        identity_simple_2, request_id, comment, CommentEventType
     )
     # Stranger
     with pytest.raises(PermissionDeniedError):
@@ -42,8 +45,14 @@ def test_creator_and_receiver_can_comment(
 
 
 def test_only_commenter_can_update_comment(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        request_events_service, events_service_data, example_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    request_events_service,
+    events_service_data,
+    example_request,
+):
     request_id = example_request.id
     comment = events_service_data["comment"]
 
@@ -54,23 +63,23 @@ def test_only_commenter_can_update_comment(
 
     # Stranger
     with pytest.raises(PermissionDeniedError):
-        request_events_service.update(
-            identity_stranger, comment_id, comment
-        )
+        request_events_service.update(identity_stranger, comment_id, comment)
     # Receiver
     with pytest.raises(PermissionDeniedError):
-        request_events_service.update(
-            identity_simple_2, comment_id, comment
-        )
+        request_events_service.update(identity_simple_2, comment_id, comment)
     # Commenter
-    assert request_events_service.update(
-        identity_simple, comment_id, comment
-    )
+    assert request_events_service.update(identity_simple, comment_id, comment)
 
 
 def test_only_commenter_can_delete_comment(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        request_events_service, events_service_data, example_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    request_events_service,
+    events_service_data,
+    example_request,
+):
     request_id = example_request.id
     comment = events_service_data["comment"]
 
@@ -94,8 +103,14 @@ def test_only_commenter_can_delete_comment(
 
 
 def test_creator_can_see_timeline(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        request_events_service, events_service_data, example_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    request_events_service,
+    events_service_data,
+    example_request,
+):
     request_id = example_request.id
     comment = events_service_data["comment"]
 
@@ -115,8 +130,14 @@ def test_creator_can_see_timeline(
 
 
 def test_receiver_can_see_timeline_of_open_request(
-        app, identity_simple, identity_simple_2, identity_stranger,
-        request_events_service, events_service_data, submit_request):
+    app,
+    identity_simple,
+    identity_simple_2,
+    identity_stranger,
+    request_events_service,
+    events_service_data,
+    submit_request,
+):
     request = submit_request(identity_simple)
     request_id = request.id
     comment = events_service_data["comment"]

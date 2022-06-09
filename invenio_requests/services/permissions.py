@@ -34,37 +34,25 @@ class PermissionPolicy(RecordPermissionPolicy):
     # Read/update/delete action deals with requests in **multiple states**, and
     # thus must take the request status into account.
     can_read = [
+        Status(["created"], [Creator()]),
         Status(
-            ['created'],
-            [Creator()]
-        ),
-        Status(
-            ['submitted', 'deleted', 'cancelled', 'expired', 'accepted', 'declined'],
-            [Creator(), Receiver()]
+            ["submitted", "deleted", "cancelled", "expired", "accepted", "declined"],
+            [Creator(), Receiver()],
         ),
         SystemProcess(),
     ]
 
     can_update = [
-        Status(
-            ['created'],
-            [Creator()]
-        ),
-        Status(
-            ['submitted'],
-            [Creator(), Receiver()]
-        ),
+        Status(["created"], [Creator()]),
+        Status(["submitted"], [Creator(), Receiver()]),
         SystemProcess(),
     ]
 
     can_delete = [
+        Status(["created"], [Creator()]),
         Status(
-            ['created'],
-            [Creator()]
-        ),
-        Status(
-            ['submitted', 'deleted', 'cancelled', 'expired', 'accepted', 'declined'],
-            [Disable()]
+            ["submitted", "deleted", "cancelled", "expired", "accepted", "declined"],
+            [Disable()],
         ),
         SystemProcess(),
     ]

@@ -30,9 +30,7 @@ class Status(Generator):
     def needs(self, request=None, **kwargs):
         """Needs if status is in one of the provided ones."""
         if request.status in self._statuses:
-            needs = [
-                g.needs(request=request, **kwargs) for g in self._generators
-            ]
+            needs = [g.needs(request=request, **kwargs) for g in self._generators]
             return set(chain.from_iterable(needs))
         return []
 
@@ -51,7 +49,7 @@ class EntityNeedsGenerator(Generator):
     """Allows the creator of the request."""
 
     entity_field = None
-    grants_field = 'grants'
+    grants_field = "grants"
 
     def __init__(self):
         """Initialize need entity generator."""
@@ -75,13 +73,13 @@ class EntityNeedsGenerator(Generator):
 class Creator(EntityNeedsGenerator):
     """Allows the creator of the request."""
 
-    entity_field = 'created_by'
+    entity_field = "created_by"
 
 
 class Receiver(EntityNeedsGenerator):
     """Allows the receiver of the request."""
 
-    entity_field = 'receiver'
+    entity_field = "receiver"
 
 
 class Commenter(Generator):
@@ -95,4 +93,4 @@ class Commenter(Generator):
 
     def query_filter(self, identity=None, **kwargs):
         """Filters for current identity as creator."""
-        raise RuntimeError('The generator cannot be used for searching.')
+        raise RuntimeError("The generator cannot be used for searching.")

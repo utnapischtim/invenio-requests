@@ -15,17 +15,17 @@ from invenio_db.utils import alembic_test_context, drop_alembic_version_table
 def test_alembic(base_app, database):
     """Test alembic recipes."""
     db = database
-    ext = base_app.extensions['invenio-db']
+    ext = base_app.extensions["invenio-db"]
 
-    if db.engine.name == 'sqlite':
-        raise pytest.skip('Upgrades are not supported on SQLite.')
+    if db.engine.name == "sqlite":
+        raise pytest.skip("Upgrades are not supported on SQLite.")
 
-    base_app.config['ALEMBIC_CONTEXT'] = alembic_test_context()
+    base_app.config["ALEMBIC_CONTEXT"] = alembic_test_context()
 
     # Check that this package's SQLAlchemy models have been properly registered
     tables = [x.name for x in db.get_tables_for_bind()]
-    assert 'request_metadata' in tables
-    assert 'request_events' in tables
+    assert "request_metadata" in tables
+    assert "request_events" in tables
 
     # Check that Alembic agrees that there's no further tables to create.
     assert len(ext.alembic.compare_metadata()) == 0
@@ -38,7 +38,7 @@ def test_alembic(base_app, database):
 
     # Try to upgrade and downgrade
     ext.alembic.stamp()
-    ext.alembic.downgrade(target='96e796392533')
+    ext.alembic.downgrade(target="96e796392533")
     ext.alembic.upgrade()
     assert len(ext.alembic.compare_metadata()) == 0
 

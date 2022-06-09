@@ -55,6 +55,6 @@ def request_action_resource_data():
     return {
         "payload": {
             "content": "Action comment.",
-            "format": RequestEventFormat.HTML.value
+            "format": RequestEventFormat.HTML.value,
         }
     }

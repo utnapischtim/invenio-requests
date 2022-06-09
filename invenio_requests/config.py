@@ -33,22 +33,22 @@ REQUESTS_ENTITY_RESOLVERS = [
 """Registered resolvers for resolving/creating references in request metadata."""
 
 REQUESTS_ROUTES = {
-    'details': '/requests/<pid_value>',
+    "details": "/requests/<pid_value>",
 }
 """Invenio requests ui endpoints."""
 
 REQUESTS_FACETS = {
-    'type': {
-        'facet': facets.type,
-        'ui': {
-            'field': 'type',
-        }
+    "type": {
+        "facet": facets.type,
+        "ui": {
+            "field": "type",
+        },
     },
-    'status': {
-        'facet': facets.status,
-        'ui': {
-            'field': 'status',
-        }
+    "status": {
+        "facet": facets.status,
+        "ui": {
+            "field": "status",
+        },
     },
 }
 """Invenio requests facets."""
