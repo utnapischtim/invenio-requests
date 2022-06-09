@@ -30,3 +30,4 @@ recursive-include invenio_requests *.mo
 recursive-include invenio_requests *.po
 recursive-include invenio_requests *.pot
 recursive-include invenio_requests *.py
+include .git-blame-ignore-revs
