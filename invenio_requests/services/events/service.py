@@ -3,14 +3,15 @@
 # Copyright (C) 2021-2022 CERN.
 # Copyright (C) 2021-2022 Northwestern University.
 # Copyright (C) 2021-2022 TU Wien.
+# Copyright (C) 2023 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """RequestEvents Service."""
 
-from flask_babelex import _
 from invenio_access.permissions import system_process
+from invenio_i18n import _
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.base.links import LinksTemplate
 from invenio_records_resources.services.uow import (
