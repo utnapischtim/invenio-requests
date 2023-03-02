@@ -8,10 +8,14 @@
 Changes
 =======
 
+Version 1.1.0 (released 2023-03-02)
+
+- remove deprecated flask-babelex imports
+- upgrade invenio-theme, invenio-records-resources, invenio-users-resources
+
 Version 1.0.5 (released 2022-12-01)
 
 - Add identity to links template expand method.
-
 
 Version 1.0.4 (released 2022-11-25)
 
