@@ -3,6 +3,7 @@
 # Copyright (C) 2021 CERN.
 # Copyright (C) 2021 Northwestern University.
 # Copyright (C) 2021 TU Wien.
+# Copyright (C) 2023 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -114,3 +115,34 @@ def register_entry_point(registry, ep_name):
     for ep in set(entry_points(group=ep_name)):
         type_cls = ep.load()
         registry.register_type(type_cls())
+
+
+def finalize_app(app):
+    """Finalize app.
+
+    NOTE: replace former @record_once decorator
+    """
+    init(app)
+
+
+def api_finalize_app(app):
+    """Finalize app for api.
+
+    NOTE: replace former @record_once decorator
+    """
+    init(app)
+
+
+def init(app):
+    """Register the module's services and indexers to the central registries."""
+    svc_reg = app.extensions["invenio-records-resources"].registry
+    idx_reg = app.extensions["invenio-indexer"].registry
+    requests_ext = app.extensions["invenio-requests"]
+    requests_service = requests_ext.requests_service
+    events_service = requests_ext.request_events_service
+
+    svc_reg.register(requests_service)
+    svc_reg.register(events_service)
+
+    idx_reg.register(requests_service.indexer, indexer_id="requests")
+    idx_reg.register(events_service.indexer, indexer_id="events")
