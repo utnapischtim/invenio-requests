@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version v15.2.1 (released 2026-08-27)
+
+- fix(permissions): allow receivers to update finalized requests
+
 Version v15.2.0 (released 2026-08-04)
 
 - fix(timeline): avoid throwing error on request abort during auto refresh
